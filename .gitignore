@@ -1,0 +1,40 @@
+# Environment
+.env
+*.env.local
+
+# Java / Maven
+backend/target/
+*.class
+*.jar
+!*/wrapper/maven-wrapper.jar
+
+# Node / React
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Python
+analytics/__pycache__/
+analytics/**/__pycache__/
+analytics/.venv/
+analytics/*.pyc
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+
+# Data (never commit trade data or images)
+data/uploads/*
+!data/uploads/.gitkeep
+data/backups/*
+!data/backups/.gitkeep
+
+# Sample CSV (personal trade data)
+analytics (1).csv
+
+# Logs
+*.log

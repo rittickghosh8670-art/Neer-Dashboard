@@ -1,0 +1,67 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: lbs-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-lbs_db}
+      POSTGRES_USER: ${DB_USER:-lbs_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-lbs_password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-lbs_user} -d ${DB_NAME:-lbs_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    container_name: lbs-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-lbs_db}
+      DB_USER: ${DB_USER:-lbs_user}
+      DB_PASSWORD: ${DB_PASSWORD:-lbs_password}
+      UPLOAD_DIR: /data/uploads
+      BACKUP_DIR: /data/backups
+      PYTHON_SERVICE_URL: http://analytics:8000
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${DB_NAME:-lbs_db}
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data/uploads:/data/uploads
+      - ./data/backups:/data/backups
+
+  analytics:
+    build:
+      context: ./analytics
+    container_name: lbs-analytics
+    restart: unless-stopped
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: lbs-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:

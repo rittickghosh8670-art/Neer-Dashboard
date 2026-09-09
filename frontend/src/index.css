@@ -1,0 +1,636 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0f1115;
+  color: #e4e6eb;
+}
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-nav {
+  width: 220px;
+  padding: 24px 16px;
+  background: #161822;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-right: 1px solid #262a36;
+}
+
+.app-nav h1 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.app-nav a {
+  color: #9aa4b2;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.app-nav a.active {
+  background: #1e3a5f;
+  color: #4a9eff;
+}
+
+.app-content {
+  flex: 1;
+  padding: 32px;
+  overflow-x: auto;
+}
+
+/* Forms */
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.form-row label {
+  font-size: 12px;
+  color: #9aa4b2;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+input,
+select,
+textarea {
+  background: #1a1d27;
+  border: 1px solid #2c303c;
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: #e4e6eb;
+  font-size: 14px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #4a9eff;
+}
+
+button {
+  background: #4a9eff;
+  color: #0f1115;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background: #6cb2ff;
+}
+
+.error-text {
+  color: #ff6b6b;
+  font-size: 13px;
+}
+
+/* CSV Uploader */
+.csv-uploader {
+  background: #161822;
+  border: 1px solid #262a36;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  max-width: 480px;
+}
+
+.csv-uploader h3 {
+  margin-top: 0;
+}
+
+.import-summary {
+  background: #14251b;
+  border: 1px solid #2c5a3f;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.import-summary ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  color: #9aa4b2;
+  font-size: 12px;
+}
+
+/* Filters */
+.trade-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.trade-filters select {
+  min-width: 160px;
+}
+
+/* Journal layout */
+.journal-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.trade-table-wrapper {
+  flex: 1;
+  overflow-x: auto;
+}
+
+/* Trade table */
+.trade-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.trade-table th {
+  text-align: left;
+  padding: 10px 12px;
+  color: #9aa4b2;
+  border-bottom: 1px solid #262a36;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+
+.trade-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #1e212b;
+}
+
+.trade-table tbody tr {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.trade-table tbody tr:hover {
+  background: #161822;
+}
+
+.trade-table tr.row-selected {
+  background: #1e3a5f;
+}
+
+.pnl-positive {
+  color: #4ade80;
+}
+
+.pnl-negative {
+  color: #ff6b6b;
+}
+
+.side-buy {
+  color: #4ade80;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.side-sell {
+  color: #ff6b6b;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.empty-state {
+  color: #9aa4b2;
+  padding: 40px;
+  text-align: center;
+}
+
+/* Enrichment panel */
+.enrichment-panel {
+  width: 380px;
+  background: #161822;
+  border: 1px solid #262a36;
+  border-radius: 10px;
+  padding: 20px;
+  position: sticky;
+  top: 20px;
+}
+
+.enrichment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.enrichment-header h3 {
+  font-size: 14px;
+  margin: 0;
+}
+
+.enrichment-header button {
+  background: #262a36;
+  color: #e4e6eb;
+  font-weight: 400;
+  padding: 4px 10px;
+}
+
+.enrichment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 12px;
+}
+
+.trade-image-preview {
+  margin-top: 10px;
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid #262a36;
+}
+
+/* Analytics page */
+.analytics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.metrics-card {
+  background: #161822;
+  border: 1px solid #262a36;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.metrics-card-label {
+  font-size: 11px;
+  color: #9aa4b2;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.metrics-card-value {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.metric-positive {
+  color: #4ade80;
+}
+
+.metric-negative {
+  color: #ff6b6b;
+}
+
+.analytics-section {
+  margin-bottom: 32px;
+}
+
+.analytics-section h3 {
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.breakdown-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Breakdown tables */
+.breakdown-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.breakdown-table h4 {
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #9aa4b2;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.breakdown-table th {
+  text-align: left;
+  padding: 8px 10px;
+  color: #9aa4b2;
+  border-bottom: 1px solid #262a36;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.breakdown-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #1e212b;
+}
+
+/* PnL calendar */
+.pnl-calendar {
+  background: #161822;
+  border: 1px solid #262a36;
+  border-radius: 10px;
+  padding: 16px;
+  max-width: 480px;
+}
+
+.pnl-calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.pnl-calendar-header button {
+  background: #262a36;
+  color: #e4e6eb;
+  padding: 4px 10px;
+}
+
+.pnl-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cal-dow {
+  text-align: center;
+  font-size: 11px;
+  color: #9aa4b2;
+  padding-bottom: 4px;
+}
+
+.cal-cell {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  gap: 2px;
+}
+
+.cal-empty {
+  background: transparent;
+}
+
+.cal-neutral {
+  background: #1a1d27;
+  color: #9aa4b2;
+}
+
+.cal-positive {
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.cal-negative {
+  background: rgba(255, 107, 107, 0.15);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.cal-day-num {
+  font-weight: 600;
+}
+
+.cal-pnl-value {
+  font-size: 10px;
+}
+
+/* AI Insights */
+.page-subtitle {
+  color: #9aa4b2;
+  font-size: 13px;
+  margin-bottom: 20px;
+  max-width: 640px;
+}
+
+.ai-selection-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  font-size: 13px;
+  color: #9aa4b2;
+}
+
+.ai-selection-bar button {
+  background: #262a36;
+  color: #e4e6eb;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.ai-trade-list {
+  max-height: 240px;
+  overflow-y: auto;
+  background: #161822;
+  border: 1px solid #262a36;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 20px;
+}
+
+.ai-trade-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ai-trade-checkbox:hover {
+  background: #1e212b;
+}
+
+.ai-trade-checkbox input {
+  width: auto;
+}
+
+.ai-question-box {
+  background: #161822;
+  border: 1px solid #262a36;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 640px;
+  margin-bottom: 24px;
+}
+
+.ai-question-box label {
+  font-size: 12px;
+  color: #9aa4b2;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.ai-question-box textarea {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.preset-questions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.preset-btn {
+  background: #1a1d27;
+  border: 1px solid #2c303c;
+  color: #9aa4b2;
+  font-size: 11px;
+  font-weight: 400;
+  padding: 6px 10px;
+}
+
+.preset-btn:hover {
+  border-color: #4a9eff;
+  color: #4a9eff;
+  background: #1a1d27;
+}
+
+.checkbox-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: none;
+  font-size: 13px;
+  color: #e4e6eb;
+  margin-bottom: 16px;
+}
+
+.checkbox-inline input {
+  width: auto;
+}
+
+.ai-insight-result {
+  background: #161822;
+  border: 1px solid #262a36;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 720px;
+}
+
+.ai-insight-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.ai-insight-header h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.ai-model-tag {
+  font-size: 11px;
+  color: #9aa4b2;
+  background: #1a1d27;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.ai-insight-text {
+  white-space: pre-wrap;
+  line-height: 1.6;
+  font-size: 14px;
+  color: #e4e6eb;
+}
+
+/* Live trade form */
+.live-trade-form {
+  background: #161822;
+  border: 1px solid #262a36;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 24px;
+  max-width: 760px;
+}
+
+.live-trade-form h3 {
+  margin-top: 0;
+}
+
+/* Settings / Backup */
+.settings-section {
+  background: #161822;
+  border: 1px solid #262a36;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  max-width: 640px;
+}
+
+.settings-section h3 {
+  margin-top: 0;
+  font-size: 14px;
+}
+
+.success-text {
+  color: #4ade80;
+  font-size: 13px;
+  margin: 12px 0;
+}
+
+.backup-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.backup-table th {
+  text-align: left;
+  padding: 8px 10px;
+  color: #9aa4b2;
+  border-bottom: 1px solid #262a36;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.backup-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #1e212b;
+}
+
+.backup-table a {
+  color: #4a9eff;
+}

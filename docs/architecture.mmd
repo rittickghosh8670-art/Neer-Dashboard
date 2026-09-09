@@ -1,0 +1,65 @@
+graph TB
+    subgraph UI["React Frontend (TypeScript)"]
+        direction TB
+        BT["Backtest Journal\n─────────────\nCSV Import\nTrade Table\nImage + Notes\nRegime Tag"]
+        LT["Live Trade Tracker\n─────────────\nManual Entry\nEquity Curve\nPnL Calendar\nDrawdown"]
+        DB2["Analytics Dashboard\n─────────────\nWin Rate / RR\nProfit Factor\nExpectancy\nSharpe Ratio"]
+        AI_UI["AI Insights Panel\n─────────────\nRegime Analysis\nPattern Insights\nSetup Grading\nRecommendations"]
+    end
+
+    subgraph SB["Spring Boot Backend (Java)"]
+        direction TB
+        TR["Trade REST API\n/api/trades\n/api/backtest\n/api/live"]
+        MS["Metrics Service\nWin Rate, PF\nExpectancy\nSharpe, DD"]
+        IS["Import Service\nCSV Parser\nImage Handler\nData Mapper"]
+        PS["Python Bridge\nHTTP Client\n→ FastAPI"]
+    end
+
+    subgraph PY["Python Microservice (FastAPI)"]
+        direction TB
+        GR["GARCH Engine\n─────────────\nVolatility Regime\nTrend / Range\nHigh / Low Vol\nTag per Session"]
+        CL["Claude Service\n─────────────\nTrade Context\nPrompt Builder\nInsight Parser"]
+    end
+
+    subgraph STORE["Data Layer"]
+        direction TB
+        PG[("PostgreSQL\n─────────────\ntrades\nbacktest_sessions\nlive_trades\nregimes\nmetrics_cache")]
+        FS["File Storage\n─────────────\nTrade Images\nCSV Exports"]
+    end
+
+    subgraph EXT["External"]
+        CSV["FX Replay\nCSV Export"]
+        ANT["Anthropic API\nClaude Model"]
+        IB["Edgeful\nIB Data\n(Manual Input)"]
+    end
+
+    CSV -->|upload| IS
+    IB -->|manual entry| TR
+    UI <-->|REST/JSON| SB
+    TR <--> MS
+    TR <--> IS
+    TR --> PS
+    IS --> PG
+    IS --> FS
+    MS --> PG
+    PS -->|HTTP| GR
+    PS -->|HTTP| CL
+    GR --> PG
+    CL <-->|API Call| ANT
+    PG <--> TR
+    BT <-->|REST| TR
+    LT <-->|REST| TR
+    DB2 <-->|REST| MS
+    AI_UI <-->|REST| PS
+
+    classDef ui fill:#1e3a5f,stroke:#4a9eff,color:#fff
+    classDef backend fill:#1a3d2e,stroke:#4ade80,color:#fff
+    classDef python fill:#3d2a1a,stroke:#fb923c,color:#fff
+    classDef store fill:#2d1b4e,stroke:#a78bfa,color:#fff
+    classDef ext fill:#2d2d2d,stroke:#6b7280,color:#ccc
+
+    class BT,LT,DB2,AI_UI ui
+    class TR,MS,IS,PS backend
+    class GR,CL python
+    class PG,FS store
+    class CSV,ANT,IB ext
