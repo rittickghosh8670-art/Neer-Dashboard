@@ -5,8 +5,9 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:17-jre-alpine
-RUN apk add --no-cache postgresql-client
+FROM eclipse-temurin:17-jre
+RUN apt-get update && apt-get install -y --no-install-recommends postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY --from=build /app/target/lbs-backend.jar app.jar
 EXPOSE 8080

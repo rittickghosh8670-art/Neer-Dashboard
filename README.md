@@ -1,6 +1,6 @@
 # LBS Trading Dashboard
 
-Backtest journal, live trade tracker, and AI-powered analytics for the LBS strategy (MNQ / MGC).
+Backtest journal, live trade tracker and AI-powered analytics for the LBS strategy (MNQ / MGC).
 
 ## Stack
 - **Backend:** Spring Boot 3.1.4 (Java 17, Maven)
@@ -11,15 +11,49 @@ Backtest journal, live trade tracker, and AI-powered analytics for the LBS strat
 
 ## Local Setup
 
+### macOS / Linux
+
 1. Copy `.env.example` to `.env` and fill in values (DB creds, Anthropic API key).
 2. Run everything:
    ```bash
-   docker-compose up
+   docker-compose up --build
    ```
 3. Access:
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:8080/api/health
    - Analytics API: http://localhost:8000/health
+
+### Windows
+
+**Prerequisites:**
+- [Docker Desktop for Windows](https://www.docker.com/products/docker-desktop/) with the **WSL2 backend** enabled (default on modern installs). During Docker Desktop setup, when prompted, choose "Use WSL 2 instead of Hyper-V."
+- Git for Windows (or clone via GitHub Desktop).
+- PowerShell 5.1+ (built into Windows) or PowerShell 7.
+
+**Setup:**
+1. Clone the repo:
+   ```powershell
+   git clone https://github.com/rittickghosh8670-art/Neer-Dashboard.git
+   cd Neer-Dashboard
+   ```
+2. Run the setup script (creates `.env`, opens it for editing, builds and starts all containers):
+   ```powershell
+   .\scripts\setup-windows.ps1
+   ```
+   If PowerShell blocks the script with an execution policy error, run once:
+   ```powershell
+   Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+   ```
+3. Check status any time:
+   ```powershell
+   .\scripts\status-windows.ps1
+   ```
+4. Access the same URLs as above (localhost works identically on Windows via Docker Desktop's port forwarding).
+
+**Windows-specific notes:**
+- Line endings are enforced via `.gitattributes` — Dockerfiles, `.sh`, `.sql`, and YAML files always use LF, even after `git clone` on Windows. This prevents "exec format error" issues that occur when Linux containers try to run CRLF-terminated shell scripts.
+- The backup feature (`pg_dump`/`psql`) runs **inside** the backend Docker container, which is Linux-based — no need to install Postgres client tools natively on Windows.
+- If Docker Desktop uses Hyper-V instead of WSL2, file-system performance for bind-mounted volumes (`./data/uploads`, `./data/backups`) will be noticeably slower. Switch to WSL2 backend in Docker Desktop Settings > General.
 
 ## Running Backend Without Docker (dev mode)
 
