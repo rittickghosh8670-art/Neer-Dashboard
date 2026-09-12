@@ -28,9 +28,16 @@ public class Trade {
      * triggering lazy-loading of the full BacktestSession entity
      * (which would fail once the Hibernate session is closed, since
      * JSON serialization happens after the transaction ends).
+     *
+     * Deliberately NOT named getBacktestSessionId() -- Spring Data JPA's
+     * query derivation for TradeRepository.findByBacktestSessionId(...)
+     * matches method/property names by convention, and a same-named
+     * getter here causes it to misresolve the property path against a
+     * non-existent flat attribute instead of traversing
+     * backtestSession.id, breaking startup query validation.
      */
-    @Transient
-    public Long getBacktestSessionId() {
+    @com.fasterxml.jackson.annotation.JsonProperty("backtestSessionId")
+    public Long resolveBacktestSessionId() {
         return backtestSession != null ? backtestSession.getId() : null;
     }
 
