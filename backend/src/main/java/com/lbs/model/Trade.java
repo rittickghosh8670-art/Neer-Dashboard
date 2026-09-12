@@ -1,5 +1,6 @@
 package com.lbs.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,19 @@ public class Trade {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "backtest_session_id")
+    @JsonIgnore
     private BacktestSession backtestSession;
+
+    /**
+     * Exposes just the backtest session ID to the frontend without
+     * triggering lazy-loading of the full BacktestSession entity
+     * (which would fail once the Hibernate session is closed, since
+     * JSON serialization happens after the transaction ends).
+     */
+    @Transient
+    public Long getBacktestSessionId() {
+        return backtestSession != null ? backtestSession.getId() : null;
+    }
 
     @Column(name = "is_live", nullable = false)
     private boolean isLive = false;
