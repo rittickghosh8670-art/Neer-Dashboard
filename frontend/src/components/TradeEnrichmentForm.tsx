@@ -275,7 +275,7 @@ function TradeEnrichmentForm({ trade, onUpdated, onClose, onDeleted }: Props) {
         </div>
       </div>
 
-      <div className="enrichment-section-label">Target R (fill whichever target was hit)</div>
+      <div className="enrichment-section-label">Target R (fill the target type used; positive = hit, negative = stopped out, e.g. -1)</div>
       <div className="enrichment-grid">
         <div className="form-row">
           <label>Classic Level R</label>

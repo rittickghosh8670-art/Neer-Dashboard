@@ -81,18 +81,21 @@ COLUMNS = [
 
     ("targetClassicLevelR", "number",
      None,
-     "R achieved if the target was the nearest Classic Level. Use negative "
-     "values for losses (e.g. -1). Leave blank if this target type wasn't used."),
+     "R outcome when the nearest Classic Level was the applicable target for "
+     "this trade. Positive = target hit, negative = stopped out first (e.g. -1 "
+     "for a 1R loss). Leave blank if this target type didn't apply to this trade."),
 
     ("targetFurtherSrR", "number",
      None,
-     "R achieved if the target was a further recent S/R zone. Leave blank "
-     "if this target type wasn't used."),
+     "R outcome when a further recent S/R zone was the applicable target. "
+     "Positive = target hit, negative = stopped out first (e.g. -1). Leave "
+     "blank if this target type didn't apply to this trade."),
 
     ("targetIbHighLowR", "number",
      None,
-     "R achieved if the target was the IB high/low. Leave blank if this "
-     "target type wasn't used."),
+     "R outcome when the IB high/low was the applicable target. Positive = "
+     "target hit, negative = stopped out first (e.g. -1). Leave blank if "
+     "this target type didn't apply to this trade."),
 
     ("mgmtNoMoveR", "number",
      None,
