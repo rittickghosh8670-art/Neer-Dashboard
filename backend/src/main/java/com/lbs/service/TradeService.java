@@ -26,8 +26,11 @@ public class TradeService {
     }
 
     public List<Trade> findWithFilters(boolean isLive, String instrument, String sessionWindow,
-                                        String signature, String regime) {
-        return tradeRepository.findWithFilters(isLive, instrument, sessionWindow, signature, regime);
+                                        String signature, String regime, Integer year, Integer quarter) {
+        com.lbs.util.QuarterUtil.DateRange range = com.lbs.util.QuarterUtil.resolve(year, quarter);
+        java.time.LocalDateTime rangeStart = range != null ? range.start() : null;
+        java.time.LocalDateTime rangeEnd = range != null ? range.end() : null;
+        return tradeRepository.findWithFilters(isLive, instrument, sessionWindow, signature, regime, rangeStart, rangeEnd);
     }
 
     public Trade findById(Long id) {

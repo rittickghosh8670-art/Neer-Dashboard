@@ -18,7 +18,17 @@ public class MetricsController {
     @GetMapping
     public MetricsDto getMetrics(
             @RequestParam(defaultValue = "false") boolean isLive,
-            @RequestParam(required = false) String instrument) {
-        return metricsService.computeMetrics(isLive, instrument);
+            @RequestParam(required = false) String instrument,
+            @RequestParam(required = false) String sessionWindow,
+            @RequestParam(required = false) String signature,
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer quarter) {
+
+        boolean anyExtraFilter = sessionWindow != null || signature != null
+                || year != null || quarter != null;
+
+        return anyExtraFilter
+                ? metricsService.computeMetrics(isLive, instrument, sessionWindow, signature, year, quarter)
+                : metricsService.computeMetrics(isLive, instrument);
     }
 }

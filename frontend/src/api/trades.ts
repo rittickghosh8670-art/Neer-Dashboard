@@ -23,6 +23,8 @@ export async function listTrades(params: {
   sessionWindow?: string;
   signature?: string;
   regime?: string;
+  year?: number;
+  quarter?: number;
 }): Promise<Trade[]> {
   const res = await client.get<Trade[]>('/trades', { params });
   return res.data;

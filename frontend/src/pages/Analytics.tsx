@@ -3,36 +3,33 @@ import MetricsCard from '../components/MetricsCard';
 import EquityCurve from '../components/EquityCurve';
 import PnLCalendar from '../components/PnLCalendar';
 import BreakdownTable from '../components/BreakdownTable';
+import TradeFilters from '../components/TradeFilters';
+import type { FilterState } from '../components/TradeFilters';
 import { getMetrics } from '../api/metrics';
 import type { Metrics } from '../types/metrics';
-import { INSTRUMENTS } from '../types/trade';
 
 function Analytics() {
   const [metrics, setMetrics] = useState<Metrics | null>(null);
-  const [instrument, setInstrument] = useState<string>('');
+  const [filters, setFilters] = useState<FilterState>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setLoading(true);
     setError(null);
-    getMetrics(false, instrument || undefined)
+    getMetrics(false, filters)
       .then(setMetrics)
       .catch((err) => setError(err instanceof Error ? err.message : 'Failed to load metrics.'))
       .finally(() => setLoading(false));
-  }, [instrument]);
+  }, [filters]);
 
   return (
     <div className="analytics-page">
       <div className="analytics-header">
         <h2>Analytics — Backtest</h2>
-        <select value={instrument} onChange={(e) => setInstrument(e.target.value)}>
-          <option value="">All Instruments</option>
-          {INSTRUMENTS.map((i) => (
-            <option key={i} value={i}>{i}</option>
-          ))}
-        </select>
       </div>
+
+      <TradeFilters filters={filters} onChange={setFilters} />
 
       {loading && <p>Loading metrics...</p>}
       {error && <p className="error-text">{error}</p>}

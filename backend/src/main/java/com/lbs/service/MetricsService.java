@@ -45,6 +45,18 @@ public class MetricsService {
         return compute(trades, true);
     }
 
+    public MetricsDto computeMetrics(boolean isLive, String instrument, String sessionWindow,
+                                      String signature, Integer year, Integer quarter) {
+        com.lbs.util.QuarterUtil.DateRange range = com.lbs.util.QuarterUtil.resolve(year, quarter);
+        java.time.LocalDateTime rangeStart = range != null ? range.start() : null;
+        java.time.LocalDateTime rangeEnd = range != null ? range.end() : null;
+
+        List<Trade> trades = tradeRepository.findWithFilters(
+                isLive, instrument, sessionWindow, signature, null, rangeStart, rangeEnd);
+
+        return compute(trades, true);
+    }
+
     private MetricsDto compute(List<Trade> trades, boolean includeBreakdowns) {
         List<Trade> closed = trades.stream()
                 .filter(t -> t.getRealizedPnl() != null)

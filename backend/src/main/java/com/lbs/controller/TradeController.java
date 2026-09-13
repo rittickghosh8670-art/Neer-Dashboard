@@ -31,13 +31,15 @@ public class TradeController {
             @RequestParam(required = false) String instrument,
             @RequestParam(required = false) String sessionWindow,
             @RequestParam(required = false) String signature,
-            @RequestParam(required = false) String regime) {
+            @RequestParam(required = false) String regime,
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer quarter) {
 
         boolean anyFilter = instrument != null || sessionWindow != null
-                || signature != null || regime != null;
+                || signature != null || regime != null || year != null || quarter != null;
 
         return anyFilter
-                ? tradeService.findWithFilters(isLive, instrument, sessionWindow, signature, regime)
+                ? tradeService.findWithFilters(isLive, instrument, sessionWindow, signature, regime, year, quarter)
                 : tradeService.findAll(isLive);
     }
 

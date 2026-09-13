@@ -23,7 +23,7 @@ function LiveTracker() {
     try {
       const [tradeData, metricsData] = await Promise.all([
         listLiveTrades(),
-        getMetrics(true),
+        getMetrics(true, {}),
       ]);
       setTrades(tradeData);
       setMetrics(metricsData);
