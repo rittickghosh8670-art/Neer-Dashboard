@@ -30,6 +30,7 @@ function TradeTable({ trades, onSelect, selectedId }: Props) {
       <table className="trade-table">
         <thead>
           <tr>
+            <th>#</th>
             <th>Date</th>
             <th>Instrument</th>
             <th>Side</th>
@@ -44,12 +45,13 @@ function TradeTable({ trades, onSelect, selectedId }: Props) {
           </tr>
         </thead>
         <tbody>
-          {trades.map((t) => (
+          {trades.map((t, index) => (
             <tr
               key={t.id}
               className={t.id === selectedId ? 'row-selected' : ''}
               onClick={() => onSelect(t)}
             >
+              <td className="row-index">{index + 1}</td>
               <td>{formatDate(t.dateStart)}</td>
               <td>{t.instrument}</td>
               <td className={t.side === 'buy' ? 'side-buy' : 'side-sell'}>{t.side}</td>
