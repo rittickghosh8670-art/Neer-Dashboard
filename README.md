@@ -83,6 +83,17 @@ re-uploadable), or manually via `pg_dump` / `psql`.
 > Note: running the backend outside Docker requires `postgresql-client`
 > (`pg_dump` / `psql`) installed locally for the backup feature to work.
 
+## Enrichment Template
+
+`templates/trade_enrichment_template.xlsx` — Excel template for capturing
+trade enrichment data (signature, IB type, S/R quality, target/management R
+outcomes, notes) while backtesting in FX Replay. Fill it in, copy the columns
+into your FX Replay CSV export (matched by `id`), then import the combined
+CSV via the dashboard's Import CSV page. Includes dropdown validation on enum
+columns and an Instructions sheet.
+
+Regenerate with: `python3 scripts/generate_enrichment_template.py`
+
 ## Feature Overview
 
 - **Backtest Journal** — import FX Replay CSV exports, auto-classifies
