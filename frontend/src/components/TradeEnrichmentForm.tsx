@@ -62,6 +62,7 @@ function TradeEnrichmentForm({ trade, onUpdated, onClose }: Props) {
     try {
       const updated = await enrichTrade(trade.id, form);
       onUpdated(updated);
+      onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Save failed.');
     } finally {
