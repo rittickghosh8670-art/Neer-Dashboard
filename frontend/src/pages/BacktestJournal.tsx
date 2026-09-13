@@ -38,6 +38,11 @@ function BacktestJournal() {
     setSelectedTrade(updated);
   };
 
+  const handleTradeDeleted = (tradeId: number) => {
+    setTrades((prev) => prev.filter((t) => t.id !== tradeId));
+    setSelectedTrade(null);
+  };
+
   const handleEditFromReview = (trade: Trade) => {
     setReviewIndex(null);
     setSelectedTrade(trade);
@@ -71,6 +76,7 @@ function BacktestJournal() {
               trade={selectedTrade}
               onUpdated={handleTradeUpdated}
               onClose={() => setSelectedTrade(null)}
+              onDeleted={handleTradeDeleted}
             />
           </div>
         </div>

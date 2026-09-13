@@ -12,17 +12,19 @@ import {
   VWAP_SIDES,
 } from '../types/trade';
 import type { Trade, TradeEnrichment } from '../types/trade';
-import { enrichTrade, getTradeImageUrl, uploadTradeImage } from '../api/trades';
+import { deleteTrade, enrichTrade, getTradeImageUrl, uploadTradeImage } from '../api/trades';
 
 interface Props {
   trade: Trade;
   onUpdated: (trade: Trade) => void;
   onClose: () => void;
+  onDeleted?: (tradeId: number) => void;
 }
 
-function TradeEnrichmentForm({ trade, onUpdated, onClose }: Props) {
+function TradeEnrichmentForm({ trade, onUpdated, onClose, onDeleted }: Props) {
   const [form, setForm] = useState<TradeEnrichment>({});
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -67,6 +69,25 @@ function TradeEnrichmentForm({ trade, onUpdated, onClose }: Props) {
       setError(err instanceof Error ? err.message : 'Save failed.');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    const confirmed = window.confirm(
+      `Delete trade #${trade.id} (${trade.instrument} ${trade.side})? This cannot be undone.`
+    );
+    if (!confirmed) return;
+
+    setDeleting(true);
+    setError(null);
+    try {
+      await deleteTrade(trade.id);
+      onDeleted?.(trade.id);
+      onClose();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Delete failed.');
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -344,9 +365,14 @@ function TradeEnrichmentForm({ trade, onUpdated, onClose }: Props) {
 
       {error && <p className="error-text">{error}</p>}
 
-      <button onClick={handleSave} disabled={saving}>
-        {saving ? 'Saving...' : 'Save Trade'}
-      </button>
+      <div className="enrichment-footer-actions">
+        <button onClick={handleSave} disabled={saving || deleting}>
+          {saving ? 'Saving...' : 'Save Trade'}
+        </button>
+        <button className="delete-btn" onClick={handleDelete} disabled={saving || deleting}>
+          {deleting ? 'Deleting...' : 'Delete Trade'}
+        </button>
+      </div>
     </div>
   );
 }

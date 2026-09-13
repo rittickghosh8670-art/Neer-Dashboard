@@ -56,3 +56,21 @@ export function getTradeImageUrl(id: number): string {
 export async function deleteTrade(id: number): Promise<void> {
   await client.delete(`/trades/${id}`);
 }
+
+export interface BacktestSession {
+  id: number;
+  name: string;
+  instrument: string;
+  importedAt: string;
+  sourceFile?: string;
+  tradeCount: number;
+}
+
+export async function listBacktestSessions(): Promise<BacktestSession[]> {
+  const res = await client.get<BacktestSession[]>('/backtest/sessions');
+  return res.data;
+}
+
+export async function deleteBacktestSession(id: number): Promise<void> {
+  await client.delete(`/backtest/sessions/${id}`);
+}

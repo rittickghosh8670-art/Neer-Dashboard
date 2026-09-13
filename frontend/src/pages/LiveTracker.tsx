@@ -50,6 +50,12 @@ function LiveTracker() {
     fetchData();
   };
 
+  const handleTradeDeleted = (tradeId: number) => {
+    setTrades((prev) => prev.filter((t) => t.id !== tradeId));
+    setSelectedTrade(null);
+    fetchData();
+  };
+
   const handleEditFromReview = (trade: Trade) => {
     setReviewIndex(null);
     setSelectedTrade(trade);
@@ -120,6 +126,7 @@ function LiveTracker() {
               trade={selectedTrade}
               onUpdated={handleTradeUpdated}
               onClose={() => setSelectedTrade(null)}
+              onDeleted={handleTradeDeleted}
             />
           </div>
         </div>

@@ -669,6 +669,53 @@ button:hover:not(:disabled) {
   margin-top: 12px;
 }
 
+.sessions-section {
+  margin-top: 24px;
+  max-width: 720px;
+}
+
+.sessions-section h3 {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.sessions-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.sessions-table th {
+  text-align: left;
+  padding: 8px 10px;
+  color: #9aa4b2;
+  border-bottom: 1px solid #262a36;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.sessions-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #1e212b;
+}
+
+/* Delete buttons (shared) */
+.delete-btn {
+  background: #3a1f1f;
+  color: #ff6b6b;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.delete-btn:hover:not(:disabled) {
+  background: #4a2626;
+}
+
+.enrichment-footer-actions {
+  display: flex;
+  gap: 10px;
+}
+
 /* Settings / Backup */
 .settings-section {
   background: #161822;
