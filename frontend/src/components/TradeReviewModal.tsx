@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import type { Trade } from '../types/trade';
 import { getTradeImageUrl } from '../api/trades';
 
@@ -32,16 +32,29 @@ function Badge({ label, value }: { label: string; value?: string | number | null
 
 function TradeReviewModal({ trades, currentIndex, onClose, onNavigate, onEdit }: Props) {
   const trade = trades[currentIndex];
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  useEffect(() => {
+    setLightboxOpen(false);
+  }, [currentIndex]);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        if (lightboxOpen) {
+          setLightboxOpen(false);
+        } else {
+          onClose();
+        }
+        return;
+      }
+      if (lightboxOpen) return;
       if (e.key === 'ArrowLeft' && currentIndex > 0) onNavigate(currentIndex - 1);
       if (e.key === 'ArrowRight' && currentIndex < trades.length - 1) onNavigate(currentIndex + 1);
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [currentIndex, trades.length, onClose, onNavigate]);
+  }, [currentIndex, trades.length, onClose, onNavigate, lightboxOpen]);
 
   if (!trade) return null;
 
@@ -84,9 +97,11 @@ function TradeReviewModal({ trades, currentIndex, onClose, onNavigate, onEdit }:
           <div className="review-image-section">
             {trade.imagePath ? (
               <img
-                className="review-image"
+                className="review-image review-image-clickable"
                 src={getTradeImageUrl(trade.id)}
                 alt={`Trade ${trade.id} screenshot`}
+                onClick={() => setLightboxOpen(true)}
+                title="Click to enlarge"
               />
             ) : (
               <div className="review-image-placeholder">No screenshot uploaded</div>
@@ -175,6 +190,18 @@ function TradeReviewModal({ trades, currentIndex, onClose, onNavigate, onEdit }:
           <button onClick={() => onEdit(trade)}>Edit This Trade</button>
         </div>
       </div>
+
+      {lightboxOpen && trade.imagePath && (
+        <div className="image-lightbox-backdrop" onClick={() => setLightboxOpen(false)}>
+          <img
+            className="image-lightbox-img"
+            src={getTradeImageUrl(trade.id)}
+            alt={`Trade ${trade.id} screenshot enlarged`}
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button className="image-lightbox-close" onClick={() => setLightboxOpen(false)}>Close</button>
+        </div>
+      )}
     </div>
   );
 }
