@@ -1,17 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
-import CSVUploader from '../components/CSVUploader';
+import { Link } from 'react-router-dom';
 import TradeTable from '../components/TradeTable';
 import TradeEnrichmentForm from '../components/TradeEnrichmentForm';
 import TradeFilters from '../components/TradeFilters';
 import type { FilterState } from '../components/TradeFilters';
 import { listTrades } from '../api/trades';
-import type { ImportResult, Trade } from '../types/trade';
+import type { Trade } from '../types/trade';
 
 function BacktestJournal() {
   const [trades, setTrades] = useState<Trade[]>([]);
   const [selectedTrade, setSelectedTrade] = useState<Trade | null>(null);
   const [filters, setFilters] = useState<FilterState>({});
-  const [importSummary, setImportSummary] = useState<ImportResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,11 +31,6 @@ function BacktestJournal() {
     fetchTrades();
   }, [fetchTrades]);
 
-  const handleImported = (result: ImportResult) => {
-    setImportSummary(result);
-    fetchTrades();
-  };
-
   const handleTradeUpdated = (updated: Trade) => {
     setTrades((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
     setSelectedTrade(updated);
@@ -44,23 +38,10 @@ function BacktestJournal() {
 
   return (
     <div className="backtest-journal">
-      <h2>Backtest Journal</h2>
-
-      <CSVUploader onImported={handleImported} />
-
-      {importSummary && (
-        <div className="import-summary">
-          Imported {importSummary.importedCount} / {importSummary.totalRows} rows
-          {importSummary.skippedCount > 0 && ` (${importSummary.skippedCount} skipped)`}.
-          {importSummary.warnings.length > 0 && (
-            <ul>
-              {importSummary.warnings.slice(0, 10).map((w, i) => (
-                <li key={i}>{w}</li>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
+      <div className="journal-header">
+        <h2>Backtest Journal</h2>
+        <Link to="/import" className="import-link-btn">Import CSV</Link>
+      </div>
 
       <TradeFilters filters={filters} onChange={setFilters} />
 

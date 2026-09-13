@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import BacktestJournal from './pages/BacktestJournal';
+import ImportBacktest from './pages/ImportBacktest';
 import LiveTracker from './pages/LiveTracker';
 import Analytics from './pages/Analytics';
 import AIInsights from './pages/AIInsights';
@@ -12,6 +13,7 @@ function App() {
         <nav className="app-nav">
           <h1>LBS Dashboard</h1>
           <NavLink to="/" end>Backtest Journal</NavLink>
+          <NavLink to="/import">Import CSV</NavLink>
           <NavLink to="/live">Live Tracker</NavLink>
           <NavLink to="/analytics">Analytics</NavLink>
           <NavLink to="/insights">AI Insights</NavLink>
@@ -20,6 +22,7 @@ function App() {
         <main className="app-content">
           <Routes>
             <Route path="/" element={<BacktestJournal />} />
+            <Route path="/import" element={<ImportBacktest />} />
             <Route path="/live" element={<LiveTracker />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/insights" element={<AIInsights />} />
