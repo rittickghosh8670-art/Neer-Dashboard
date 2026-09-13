@@ -36,8 +36,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CsvImportService {
 
-    private static final DateTimeFormatter DATE_FORMAT =
-            DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    private static final List<DateTimeFormatter> DATE_FORMATS = List.of(
+            DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"),
+            DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"),
+            DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+    );
 
     private final BacktestSessionRepository backtestSessionRepository;
     private final TradeRepository tradeRepository;
@@ -203,13 +206,16 @@ public class CsvImportService {
             }
             return null;
         }
-        try {
-            return LocalDateTime.parse(val, DATE_FORMAT);
-        } catch (Exception e) {
-            if (required) {
-                throw new IllegalArgumentException("Invalid date format for " + name + ": " + val);
+        for (DateTimeFormatter fmt : DATE_FORMATS) {
+            try {
+                return LocalDateTime.parse(val, fmt);
+            } catch (Exception ignored) {
+                // try next format
             }
-            return null;
         }
+        if (required) {
+            throw new IllegalArgumentException("Invalid date format for " + name + ": " + val);
+        }
+        return null;
     }
 }
