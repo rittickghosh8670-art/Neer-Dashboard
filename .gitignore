@@ -27,6 +27,10 @@ analytics/*.pyc
 # OS
 .DS_Store
 
+# Excel lock files
+~$*.xlsx
+~$*.xls
+
 # Data (never commit trade data or images)
 data/uploads/*
 !data/uploads/.gitkeep
