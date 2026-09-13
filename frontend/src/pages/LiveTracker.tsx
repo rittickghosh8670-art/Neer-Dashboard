@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import LiveTradeForm from '../components/LiveTradeForm';
 import TradeTable from '../components/TradeTable';
 import TradeEnrichmentForm from '../components/TradeEnrichmentForm';
+import TradeReviewModal from '../components/TradeReviewModal';
 import MetricsCard from '../components/MetricsCard';
 import EquityCurve from '../components/EquityCurve';
 import PnLCalendar from '../components/PnLCalendar';
@@ -14,6 +15,7 @@ function LiveTracker() {
   const [trades, setTrades] = useState<Trade[]>([]);
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [selectedTrade, setSelectedTrade] = useState<Trade | null>(null);
+  const [reviewIndex, setReviewIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -46,6 +48,11 @@ function LiveTracker() {
     setTrades((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
     setSelectedTrade(updated);
     fetchData();
+  };
+
+  const handleEditFromReview = (trade: Trade) => {
+    setReviewIndex(null);
+    setSelectedTrade(trade);
   };
 
   return (
@@ -98,16 +105,35 @@ function LiveTracker() {
       )}
 
       <div className="journal-layout">
-        <TradeTable trades={trades} onSelect={setSelectedTrade} selectedId={selectedTrade?.id} />
-
-        {selectedTrade && (
-          <TradeEnrichmentForm
-            trade={selectedTrade}
-            onUpdated={handleTradeUpdated}
-            onClose={() => setSelectedTrade(null)}
-          />
-        )}
+        <TradeTable
+          trades={trades}
+          onSelect={setSelectedTrade}
+          onView={setReviewIndex}
+          selectedId={selectedTrade?.id}
+        />
       </div>
+
+      {selectedTrade && (
+        <div className="enrichment-drawer-backdrop" onClick={() => setSelectedTrade(null)}>
+          <div className="enrichment-drawer" onClick={(e) => e.stopPropagation()}>
+            <TradeEnrichmentForm
+              trade={selectedTrade}
+              onUpdated={handleTradeUpdated}
+              onClose={() => setSelectedTrade(null)}
+            />
+          </div>
+        </div>
+      )}
+
+      {reviewIndex !== null && (
+        <TradeReviewModal
+          trades={trades}
+          currentIndex={reviewIndex}
+          onClose={() => setReviewIndex(null)}
+          onNavigate={setReviewIndex}
+          onEdit={handleEditFromReview}
+        />
+      )}
     </div>
   );
 }

@@ -3,6 +3,7 @@ import type { Trade } from '../types/trade';
 interface Props {
   trades: Trade[];
   onSelect: (trade: Trade) => void;
+  onView?: (index: number) => void;
   selectedId?: number;
 }
 
@@ -20,7 +21,7 @@ function pnlClass(pnl?: number): string {
   return pnl > 0 ? 'pnl-positive' : pnl < 0 ? 'pnl-negative' : '';
 }
 
-function TradeTable({ trades, onSelect, selectedId }: Props) {
+function TradeTable({ trades, onSelect, onView, selectedId }: Props) {
   if (trades.length === 0) {
     return <p className="empty-state">No trades found. Import a CSV or adjust filters.</p>;
   }
@@ -64,7 +65,16 @@ function TradeTable({ trades, onSelect, selectedId }: Props) {
               <td>{t.signature ?? '-'}</td>
               <td>{t.setupGrade ?? '-'}</td>
               <td>{t.regime ?? '-'}</td>
-              <td>
+              <td className="row-actions">
+                {onView && (
+                  <button
+                    className="view-btn"
+                    onClick={(e) => { e.stopPropagation(); onView(index); }}
+                    title="View trade details"
+                  >
+                    View
+                  </button>
+                )}
                 <button onClick={(e) => { e.stopPropagation(); onSelect(t); }}>Edit</button>
               </td>
             </tr>
