@@ -51,6 +51,11 @@ COLUMNS = [
      ["A", "B", "C"],
      "Subjective setup quality grade."),
 
+    ("entryBasis", "text",
+     ["support", "resistance", "classic_level", "support_confluence", "resistance_confluence"],
+     "The categorical reason this entry was taken: a support zone, a resistance "
+     "zone, a classic level alone, or a zone + classic level confluence."),
+
     ("srZoneLow", "number",
      None,
      "Lower boundary price of the S/R zone this trade was based on."),

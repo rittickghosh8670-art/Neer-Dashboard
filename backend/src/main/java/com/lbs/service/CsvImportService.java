@@ -150,6 +150,7 @@ public class CsvImportService {
         trade.setSrZoneHigh(getDecimal(row, col, "srZoneHigh"));
         trade.setClassicLevel(getDecimal(row, col, "classicLevel"));
 
+        trade.setEntryBasis(getString(row, col, "entryBasis"));
         trade.setSrType(getString(row, col, "srType"));
         trade.setSrTouchCount(getString(row, col, "srTouchCount"));
         trade.setSrFailureCount(getString(row, col, "srFailureCount"));

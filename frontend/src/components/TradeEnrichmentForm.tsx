@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
+  ENTRY_BASES,
   IB_TYPES,
   MS_DIRECTIONS,
   SESSION_WINDOWS,
@@ -39,6 +40,7 @@ function TradeEnrichmentForm({ trade, onUpdated, onClose, onDeleted }: Props) {
       srZoneLow: trade.srZoneLow,
       srZoneHigh: trade.srZoneHigh,
       classicLevel: trade.classicLevel,
+      entryBasis: trade.entryBasis,
       srType: trade.srType,
       srTouchCount: trade.srTouchCount,
       srFailureCount: trade.srFailureCount,
@@ -220,6 +222,19 @@ function TradeEnrichmentForm({ trade, onUpdated, onClose, onDeleted }: Props) {
             value={form.classicLevel ?? ''}
             onChange={(e) => update('classicLevel', e.target.value ? Number(e.target.value) : undefined)}
           />
+        </div>
+
+        <div className="form-row">
+          <label>Entry Basis</label>
+          <select
+            value={form.entryBasis ?? ''}
+            onChange={(e) => update('entryBasis', e.target.value || undefined)}
+          >
+            <option value="">-</option>
+            {ENTRY_BASES.map((b) => (
+              <option key={b} value={b}>{b}</option>
+            ))}
+          </select>
         </div>
 
         <div className="form-row">

@@ -65,6 +65,7 @@ public class AIInsightService {
         record.put("msDirection", t.getMsDirection());
         record.put("signature", t.getSignature());
         record.put("setupGrade", t.getSetupGrade());
+        record.put("entryBasis", t.getEntryBasis());
         record.put("srType", t.getSrType());
         record.put("srTouchCount", t.getSrTouchCount());
         record.put("srFailureCount", t.getSrFailureCount());

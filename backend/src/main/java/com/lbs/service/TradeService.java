@@ -51,6 +51,7 @@ public class TradeService {
         if (dto.getSrZoneLow() != null) trade.setSrZoneLow(dto.getSrZoneLow());
         if (dto.getSrZoneHigh() != null) trade.setSrZoneHigh(dto.getSrZoneHigh());
         if (dto.getClassicLevel() != null) trade.setClassicLevel(dto.getClassicLevel());
+        if (dto.getEntryBasis() != null) trade.setEntryBasis(dto.getEntryBasis());
         if (dto.getSrType() != null) trade.setSrType(dto.getSrType());
         if (dto.getSrTouchCount() != null) trade.setSrTouchCount(dto.getSrTouchCount());
         if (dto.getSrFailureCount() != null) trade.setSrFailureCount(dto.getSrFailureCount());
@@ -128,6 +129,7 @@ public class TradeService {
         trade.setSrZoneLow(dto.getSrZoneLow());
         trade.setSrZoneHigh(dto.getSrZoneHigh());
         trade.setClassicLevel(dto.getClassicLevel());
+        trade.setEntryBasis(dto.getEntryBasis());
         trade.setSrType(dto.getSrType());
         trade.setSrTouchCount(dto.getSrTouchCount());
         trade.setSrFailureCount(dto.getSrFailureCount());
@@ -176,6 +178,7 @@ public class TradeService {
         applyIfNotNull(dto.getSrZoneLow(), trade::setSrZoneLow);
         applyIfNotNull(dto.getSrZoneHigh(), trade::setSrZoneHigh);
         applyIfNotNull(dto.getClassicLevel(), trade::setClassicLevel);
+        applyIfNotNull(dto.getEntryBasis(), trade::setEntryBasis);
         applyIfNotNull(dto.getSrType(), trade::setSrType);
         applyIfNotNull(dto.getSrTouchCount(), trade::setSrTouchCount);
         applyIfNotNull(dto.getSrFailureCount(), trade::setSrFailureCount);

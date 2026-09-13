@@ -32,6 +32,8 @@ export interface Trade {
   srZoneHigh?: number;
   classicLevel?: number;
 
+  entryBasis?: 'support' | 'resistance' | 'classic_level' | 'support_confluence' | 'resistance_confluence';
+
   srType?: 'support' | 'resistance';
   srTouchCount?: '1' | '2' | '3' | '4' | '4+';
   srFailureCount?: '0' | '1' | '2' | '3' | '4+';
@@ -63,6 +65,8 @@ export interface TradeEnrichment {
   srZoneLow?: number;
   srZoneHigh?: number;
   classicLevel?: number;
+
+  entryBasis?: string;
 
   srType?: string;
   srTouchCount?: string;
@@ -97,6 +101,7 @@ export const SIGNATURES = ['bull180', 'bear180', 'torpedo', 'power_bar'] as cons
 export const SETUP_GRADES = ['A', 'B', 'C'] as const;
 export const INSTRUMENTS = ['CME_MINI:MNQ', 'CME_MINI:MGC'] as const;
 
+export const ENTRY_BASES = ['support', 'resistance', 'classic_level', 'support_confluence', 'resistance_confluence'] as const;
 export const SR_TYPES = ['support', 'resistance'] as const;
 export const SR_TOUCH_COUNTS = ['1', '2', '3', '4', '4+'] as const;
 export const SR_FAILURE_COUNTS = ['0', '1', '2', '3', '4+'] as const;

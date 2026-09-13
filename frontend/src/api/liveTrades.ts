@@ -28,6 +28,8 @@ export interface LiveTradeInput {
   srZoneHigh?: number;
   classicLevel?: number;
 
+  entryBasis?: string;
+
   srType?: string;
   srTouchCount?: string;
   srFailureCount?: string;

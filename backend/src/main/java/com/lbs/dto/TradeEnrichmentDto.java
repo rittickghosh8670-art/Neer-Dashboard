@@ -24,6 +24,8 @@ public class TradeEnrichmentDto {
     private BigDecimal srZoneHigh;
     private BigDecimal classicLevel;
 
+    private String entryBasis;
+
     private String srType;
     private String srTouchCount;
     private String srFailureCount;

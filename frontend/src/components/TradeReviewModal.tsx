@@ -138,6 +138,7 @@ function TradeReviewModal({ trades, currentIndex, onClose, onNavigate, onEdit }:
             <Badge label="VWAP" value={trade.vwapSide} />
             <Badge label="MS Direction" value={trade.msDirection} />
             <Badge label="Grade" value={trade.setupGrade} />
+            <Badge label="Entry Basis" value={trade.entryBasis} />
             <Badge label="S/R" value={srSummary} />
             <Badge label="SL Placement" value={trade.slPlacement} />
           </div>

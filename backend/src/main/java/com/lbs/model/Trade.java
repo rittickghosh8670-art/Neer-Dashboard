@@ -124,6 +124,10 @@ public class Trade {
     @Column(name = "classic_level")
     private BigDecimal classicLevel;
 
+    // --- Entry basis: categorical "why" this entry was taken ---
+    @Column(name = "entry_basis")
+    private String entryBasis;
+
     // --- S/R zone quality ---
     @Column(name = "sr_type")
     private String srType;
