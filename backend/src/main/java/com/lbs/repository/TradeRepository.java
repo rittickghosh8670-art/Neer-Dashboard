@@ -21,8 +21,8 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
            "AND (:sessionWindow IS NULL OR t.sessionWindow = :sessionWindow) " +
            "AND (:signature IS NULL OR t.signature = :signature) " +
            "AND (:regime IS NULL OR t.regime = :regime) " +
-           "AND (:rangeStart IS NULL OR t.dateStart >= :rangeStart) " +
-           "AND (:rangeEnd IS NULL OR t.dateStart < :rangeEnd)")
+           "AND (CAST(:rangeStart AS timestamp) IS NULL OR t.dateStart >= :rangeStart) " +
+           "AND (CAST(:rangeEnd AS timestamp) IS NULL OR t.dateStart < :rangeEnd)")
     List<Trade> findWithFilters(
             @Param("isLive") boolean isLive,
             @Param("instrument") String instrument,
