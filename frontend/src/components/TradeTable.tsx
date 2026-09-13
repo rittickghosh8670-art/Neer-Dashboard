@@ -40,6 +40,7 @@ function TradeTable({ trades, onSelect, onView, selectedId }: Props) {
             <th>RR</th>
             <th>Session</th>
             <th>Signature</th>
+            <th>Entry Basis</th>
             <th>Grade</th>
             <th>Regime</th>
             <th></th>
@@ -63,6 +64,7 @@ function TradeTable({ trades, onSelect, onView, selectedId }: Props) {
               <td>{t.avgRiskReward !== undefined ? t.avgRiskReward.toFixed(2) : '-'}</td>
               <td>{t.sessionWindow ?? '-'}</td>
               <td>{t.signature ?? '-'}</td>
+              <td>{t.entryBasis ?? '-'}</td>
               <td>{t.setupGrade ?? '-'}</td>
               <td>{t.regime ?? '-'}</td>
               <td className="row-actions">
