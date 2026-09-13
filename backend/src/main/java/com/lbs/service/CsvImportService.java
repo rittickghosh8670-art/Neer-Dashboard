@@ -129,9 +129,39 @@ public class CsvImportService {
         trade.setMaxRiskReward(getDecimal(row, col, "maxRiskReward"));
         trade.setRawTags(getString(row, col, "tags"));
 
-        // Auto-derive session window from trade start time (EST assumed).
-        // Trades outside the 3 LBS windows are still imported but left unclassified.
-        trade.setSessionWindow(SessionWindowClassifier.classify(trade.getDateStart()));
+        // Optional enrichment columns: present only if you've manually added
+        // them to the CSV before import (e.g. copy-pasted after backtesting
+        // in FX Replay). Missing columns are left null for later manual
+        // enrichment via the UI.
+        String sessionWindowOverride = getString(row, col, "sessionWindow");
+        trade.setSessionWindow(sessionWindowOverride != null
+                ? sessionWindowOverride
+                : SessionWindowClassifier.classify(trade.getDateStart()));
+
+        trade.setIbType(getString(row, col, "ibType"));
+        trade.setVwapSide(getString(row, col, "vwapSide"));
+        trade.setMsDirection(getString(row, col, "msDirection"));
+        trade.setSignature(getString(row, col, "signature"));
+        trade.setSetupGrade(getString(row, col, "setupGrade"));
+        trade.setSrZoneLow(getDecimal(row, col, "srZoneLow"));
+        trade.setSrZoneHigh(getDecimal(row, col, "srZoneHigh"));
+        trade.setClassicLevel(getDecimal(row, col, "classicLevel"));
+
+        trade.setSrType(getString(row, col, "srType"));
+        trade.setSrTouchCount(getString(row, col, "srTouchCount"));
+        trade.setSrFailureCount(getString(row, col, "srFailureCount"));
+
+        trade.setSlPlacement(getString(row, col, "slPlacement"));
+
+        trade.setTargetClassicLevelR(getDecimal(row, col, "targetClassicLevelR"));
+        trade.setTargetFurtherSrR(getDecimal(row, col, "targetFurtherSrR"));
+        trade.setTargetIbHighLowR(getDecimal(row, col, "targetIbHighLowR"));
+
+        trade.setMgmtNoMoveR(getDecimal(row, col, "mgmtNoMoveR"));
+        trade.setMgmtExtendedTargetR(getDecimal(row, col, "mgmtExtendedTargetR"));
+        trade.setMgmtPartialBookTrailR(getDecimal(row, col, "mgmtPartialBookTrailR"));
+
+        trade.setNotes(getString(row, col, "notes"));
 
         return trade;
     }

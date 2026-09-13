@@ -271,6 +271,16 @@ button:hover:not(:disabled) {
   border: 1px solid #262a36;
 }
 
+.enrichment-section-label {
+  font-size: 11px;
+  color: #9aa4b2;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin: 16px 0 8px;
+  padding-top: 12px;
+  border-top: 1px solid #262a36;
+}
+
 /* Analytics page */
 .analytics-header {
   display: flex;

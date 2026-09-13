@@ -104,9 +104,6 @@ public class Trade {
     @Column(name = "ib_type")
     private String ibType;
 
-    @Column(name = "ib_level")
-    private BigDecimal ibLevel;
-
     @Column(name = "vwap_side")
     private String vwapSide;
 
@@ -118,9 +115,6 @@ public class Trade {
     @Column(name = "setup_grade")
     private String setupGrade;
 
-    @Column(name = "confluence_count")
-    private Short confluenceCount;
-
     @Column(name = "sr_zone_low")
     private BigDecimal srZoneLow;
 
@@ -129,6 +123,39 @@ public class Trade {
 
     @Column(name = "classic_level")
     private BigDecimal classicLevel;
+
+    // --- S/R zone quality ---
+    @Column(name = "sr_type")
+    private String srType;
+
+    @Column(name = "sr_touch_count")
+    private String srTouchCount;
+
+    @Column(name = "sr_failure_count")
+    private String srFailureCount;
+
+    // --- SL placement ---
+    @Column(name = "sl_placement")
+    private String slPlacement;
+
+    // --- Target / management R outcomes (actual + hypothetical, multiple may be filled) ---
+    @Column(name = "target_classic_level_r")
+    private BigDecimal targetClassicLevelR;
+
+    @Column(name = "target_further_sr_r")
+    private BigDecimal targetFurtherSrR;
+
+    @Column(name = "target_ib_high_low_r")
+    private BigDecimal targetIbHighLowR;
+
+    @Column(name = "mgmt_no_move_r")
+    private BigDecimal mgmtNoMoveR;
+
+    @Column(name = "mgmt_extended_target_r")
+    private BigDecimal mgmtExtendedTargetR;
+
+    @Column(name = "mgmt_partial_book_trail_r")
+    private BigDecimal mgmtPartialBookTrailR;
 
     // --- Regime tagging ---
     private String regime;

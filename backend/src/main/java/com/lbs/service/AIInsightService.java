@@ -61,17 +61,26 @@ public class AIInsightService {
         record.put("avgRiskReward", t.getAvgRiskReward());
         record.put("sessionWindow", t.getSessionWindow());
         record.put("ibType", t.getIbType());
-        record.put("ibLevel", t.getIbLevel());
         record.put("vwapSide", t.getVwapSide());
         record.put("msDirection", t.getMsDirection());
         record.put("signature", t.getSignature());
         record.put("setupGrade", t.getSetupGrade());
-        record.put("confluenceCount", t.getConfluenceCount());
+        record.put("srType", t.getSrType());
+        record.put("srTouchCount", t.getSrTouchCount());
+        record.put("srFailureCount", t.getSrFailureCount());
+        record.put("slPlacement", t.getSlPlacement());
+        record.put("targetClassicLevelR", t.getTargetClassicLevelR());
+        record.put("targetFurtherSrR", t.getTargetFurtherSrR());
+        record.put("targetIbHighLowR", t.getTargetIbHighLowR());
+        record.put("mgmtNoMoveR", t.getMgmtNoMoveR());
+        record.put("mgmtExtendedTargetR", t.getMgmtExtendedTargetR());
+        record.put("mgmtPartialBookTrailR", t.getMgmtPartialBookTrailR());
         record.put("regime", t.getRegime());
         record.put("regimeConfidence", t.getRegimeConfidence());
         record.put("notes", t.getNotes());
         return record;
     }
+
 
     private String detectMediaType(String path) {
         String lower = path.toLowerCase();

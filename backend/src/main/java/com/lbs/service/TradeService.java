@@ -44,15 +44,23 @@ public class TradeService {
 
         if (dto.getSessionWindow() != null) trade.setSessionWindow(dto.getSessionWindow());
         if (dto.getIbType() != null) trade.setIbType(dto.getIbType());
-        if (dto.getIbLevel() != null) trade.setIbLevel(dto.getIbLevel());
         if (dto.getVwapSide() != null) trade.setVwapSide(dto.getVwapSide());
         if (dto.getMsDirection() != null) trade.setMsDirection(dto.getMsDirection());
         if (dto.getSignature() != null) trade.setSignature(dto.getSignature());
         if (dto.getSetupGrade() != null) trade.setSetupGrade(dto.getSetupGrade());
-        if (dto.getConfluenceCount() != null) trade.setConfluenceCount(dto.getConfluenceCount());
         if (dto.getSrZoneLow() != null) trade.setSrZoneLow(dto.getSrZoneLow());
         if (dto.getSrZoneHigh() != null) trade.setSrZoneHigh(dto.getSrZoneHigh());
         if (dto.getClassicLevel() != null) trade.setClassicLevel(dto.getClassicLevel());
+        if (dto.getSrType() != null) trade.setSrType(dto.getSrType());
+        if (dto.getSrTouchCount() != null) trade.setSrTouchCount(dto.getSrTouchCount());
+        if (dto.getSrFailureCount() != null) trade.setSrFailureCount(dto.getSrFailureCount());
+        if (dto.getSlPlacement() != null) trade.setSlPlacement(dto.getSlPlacement());
+        if (dto.getTargetClassicLevelR() != null) trade.setTargetClassicLevelR(dto.getTargetClassicLevelR());
+        if (dto.getTargetFurtherSrR() != null) trade.setTargetFurtherSrR(dto.getTargetFurtherSrR());
+        if (dto.getTargetIbHighLowR() != null) trade.setTargetIbHighLowR(dto.getTargetIbHighLowR());
+        if (dto.getMgmtNoMoveR() != null) trade.setMgmtNoMoveR(dto.getMgmtNoMoveR());
+        if (dto.getMgmtExtendedTargetR() != null) trade.setMgmtExtendedTargetR(dto.getMgmtExtendedTargetR());
+        if (dto.getMgmtPartialBookTrailR() != null) trade.setMgmtPartialBookTrailR(dto.getMgmtPartialBookTrailR());
         if (dto.getNotes() != null) trade.setNotes(dto.getNotes());
 
         return tradeRepository.save(trade);
@@ -113,19 +121,28 @@ public class TradeService {
                 ? dto.getSessionWindow()
                 : com.lbs.util.SessionWindowClassifier.classify(dto.getDateStart()));
         trade.setIbType(dto.getIbType());
-        trade.setIbLevel(dto.getIbLevel());
         trade.setVwapSide(dto.getVwapSide());
         trade.setMsDirection(dto.getMsDirection());
         trade.setSignature(dto.getSignature());
         trade.setSetupGrade(dto.getSetupGrade());
-        trade.setConfluenceCount(dto.getConfluenceCount());
         trade.setSrZoneLow(dto.getSrZoneLow());
         trade.setSrZoneHigh(dto.getSrZoneHigh());
         trade.setClassicLevel(dto.getClassicLevel());
+        trade.setSrType(dto.getSrType());
+        trade.setSrTouchCount(dto.getSrTouchCount());
+        trade.setSrFailureCount(dto.getSrFailureCount());
+        trade.setSlPlacement(dto.getSlPlacement());
+        trade.setTargetClassicLevelR(dto.getTargetClassicLevelR());
+        trade.setTargetFurtherSrR(dto.getTargetFurtherSrR());
+        trade.setTargetIbHighLowR(dto.getTargetIbHighLowR());
+        trade.setMgmtNoMoveR(dto.getMgmtNoMoveR());
+        trade.setMgmtExtendedTargetR(dto.getMgmtExtendedTargetR());
+        trade.setMgmtPartialBookTrailR(dto.getMgmtPartialBookTrailR());
         trade.setNotes(dto.getNotes());
 
         return tradeRepository.save(trade);
     }
+
 
     @Transactional
     public Trade updateLiveTrade(Long id, LiveTradeCreateDto dto) {
@@ -152,19 +169,28 @@ public class TradeService {
         applyIfNotNull(dto.getMaxRiskReward(), trade::setMaxRiskReward);
         applyIfNotNull(dto.getSessionWindow(), trade::setSessionWindow);
         applyIfNotNull(dto.getIbType(), trade::setIbType);
-        applyIfNotNull(dto.getIbLevel(), trade::setIbLevel);
         applyIfNotNull(dto.getVwapSide(), trade::setVwapSide);
         applyIfNotNull(dto.getMsDirection(), trade::setMsDirection);
         applyIfNotNull(dto.getSignature(), trade::setSignature);
         applyIfNotNull(dto.getSetupGrade(), trade::setSetupGrade);
-        applyIfNotNull(dto.getConfluenceCount(), trade::setConfluenceCount);
         applyIfNotNull(dto.getSrZoneLow(), trade::setSrZoneLow);
         applyIfNotNull(dto.getSrZoneHigh(), trade::setSrZoneHigh);
         applyIfNotNull(dto.getClassicLevel(), trade::setClassicLevel);
+        applyIfNotNull(dto.getSrType(), trade::setSrType);
+        applyIfNotNull(dto.getSrTouchCount(), trade::setSrTouchCount);
+        applyIfNotNull(dto.getSrFailureCount(), trade::setSrFailureCount);
+        applyIfNotNull(dto.getSlPlacement(), trade::setSlPlacement);
+        applyIfNotNull(dto.getTargetClassicLevelR(), trade::setTargetClassicLevelR);
+        applyIfNotNull(dto.getTargetFurtherSrR(), trade::setTargetFurtherSrR);
+        applyIfNotNull(dto.getTargetIbHighLowR(), trade::setTargetIbHighLowR);
+        applyIfNotNull(dto.getMgmtNoMoveR(), trade::setMgmtNoMoveR);
+        applyIfNotNull(dto.getMgmtExtendedTargetR(), trade::setMgmtExtendedTargetR);
+        applyIfNotNull(dto.getMgmtPartialBookTrailR(), trade::setMgmtPartialBookTrailR);
         applyIfNotNull(dto.getNotes(), trade::setNotes);
 
         return tradeRepository.save(trade);
     }
+
 
     private <T> void applyIfNotNull(T value, Consumer<T> setter) {
         if (value != null) {

@@ -20,15 +20,28 @@ export interface LiveTradeInput {
   maxRiskReward?: number;
   sessionWindow?: string;
   ibType?: string;
-  ibLevel?: number;
   vwapSide?: string;
   msDirection?: string;
   signature?: string;
   setupGrade?: string;
-  confluenceCount?: number;
   srZoneLow?: number;
   srZoneHigh?: number;
   classicLevel?: number;
+
+  srType?: string;
+  srTouchCount?: string;
+  srFailureCount?: string;
+
+  slPlacement?: string;
+
+  targetClassicLevelR?: number;
+  targetFurtherSrR?: number;
+  targetIbHighLowR?: number;
+
+  mgmtNoMoveR?: number;
+  mgmtExtendedTargetR?: number;
+  mgmtPartialBookTrailR?: number;
+
   notes?: string;
 }
 

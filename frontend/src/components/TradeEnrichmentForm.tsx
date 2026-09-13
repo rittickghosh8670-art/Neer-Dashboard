@@ -5,6 +5,10 @@ import {
   SESSION_WINDOWS,
   SETUP_GRADES,
   SIGNATURES,
+  SL_PLACEMENTS,
+  SR_FAILURE_COUNTS,
+  SR_TOUCH_COUNTS,
+  SR_TYPES,
   VWAP_SIDES,
 } from '../types/trade';
 import type { Trade, TradeEnrichment } from '../types/trade';
@@ -26,15 +30,23 @@ function TradeEnrichmentForm({ trade, onUpdated, onClose }: Props) {
     setForm({
       sessionWindow: trade.sessionWindow,
       ibType: trade.ibType,
-      ibLevel: trade.ibLevel,
       vwapSide: trade.vwapSide,
       msDirection: trade.msDirection,
       signature: trade.signature,
       setupGrade: trade.setupGrade,
-      confluenceCount: trade.confluenceCount,
       srZoneLow: trade.srZoneLow,
       srZoneHigh: trade.srZoneHigh,
       classicLevel: trade.classicLevel,
+      srType: trade.srType,
+      srTouchCount: trade.srTouchCount,
+      srFailureCount: trade.srFailureCount,
+      slPlacement: trade.slPlacement,
+      targetClassicLevelR: trade.targetClassicLevelR,
+      targetFurtherSrR: trade.targetFurtherSrR,
+      targetIbHighLowR: trade.targetIbHighLowR,
+      mgmtNoMoveR: trade.mgmtNoMoveR,
+      mgmtExtendedTargetR: trade.mgmtExtendedTargetR,
+      mgmtPartialBookTrailR: trade.mgmtPartialBookTrailR,
       notes: trade.notes,
     });
     setError(null);
@@ -107,16 +119,6 @@ function TradeEnrichmentForm({ trade, onUpdated, onClose }: Props) {
         </div>
 
         <div className="form-row">
-          <label>IB Level</label>
-          <input
-            type="number"
-            step="0.01"
-            value={form.ibLevel ?? ''}
-            onChange={(e) => update('ibLevel', e.target.value ? Number(e.target.value) : undefined)}
-          />
-        </div>
-
-        <div className="form-row">
           <label>VWAP Side</label>
           <select
             value={form.vwapSide ?? ''}
@@ -169,17 +171,6 @@ function TradeEnrichmentForm({ trade, onUpdated, onClose }: Props) {
         </div>
 
         <div className="form-row">
-          <label>Confluence Count</label>
-          <input
-            type="number"
-            min="0"
-            max="10"
-            value={form.confluenceCount ?? ''}
-            onChange={(e) => update('confluenceCount', e.target.value ? Number(e.target.value) : undefined)}
-          />
-        </div>
-
-        <div className="form-row">
           <label>S/R Zone Low</label>
           <input
             type="number"
@@ -206,6 +197,124 @@ function TradeEnrichmentForm({ trade, onUpdated, onClose }: Props) {
             step="0.01"
             value={form.classicLevel ?? ''}
             onChange={(e) => update('classicLevel', e.target.value ? Number(e.target.value) : undefined)}
+          />
+        </div>
+
+        <div className="form-row">
+          <label>S/R Type</label>
+          <select
+            value={form.srType ?? ''}
+            onChange={(e) => update('srType', e.target.value || undefined)}
+          >
+            <option value="">-</option>
+            {SR_TYPES.map((t) => (
+              <option key={t} value={t}>{t}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-row">
+          <label>S/R Touch Count</label>
+          <select
+            value={form.srTouchCount ?? ''}
+            onChange={(e) => update('srTouchCount', e.target.value || undefined)}
+          >
+            <option value="">-</option>
+            {SR_TOUCH_COUNTS.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-row">
+          <label>S/R Failure Count</label>
+          <select
+            value={form.srFailureCount ?? ''}
+            onChange={(e) => update('srFailureCount', e.target.value || undefined)}
+          >
+            <option value="">-</option>
+            {SR_FAILURE_COUNTS.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-row">
+          <label>SL Placement</label>
+          <select
+            value={form.slPlacement ?? ''}
+            onChange={(e) => update('slPlacement', e.target.value || undefined)}
+          >
+            <option value="">-</option>
+            {SL_PLACEMENTS.map((p) => (
+              <option key={p} value={p}>{p}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div className="enrichment-section-label">Target R (fill whichever target was hit)</div>
+      <div className="enrichment-grid">
+        <div className="form-row">
+          <label>Classic Level R</label>
+          <input
+            type="number"
+            step="0.01"
+            value={form.targetClassicLevelR ?? ''}
+            onChange={(e) => update('targetClassicLevelR', e.target.value ? Number(e.target.value) : undefined)}
+          />
+        </div>
+
+        <div className="form-row">
+          <label>Further S/R R</label>
+          <input
+            type="number"
+            step="0.01"
+            value={form.targetFurtherSrR ?? ''}
+            onChange={(e) => update('targetFurtherSrR', e.target.value ? Number(e.target.value) : undefined)}
+          />
+        </div>
+
+        <div className="form-row">
+          <label>IB High/Low R</label>
+          <input
+            type="number"
+            step="0.01"
+            value={form.targetIbHighLowR ?? ''}
+            onChange={(e) => update('targetIbHighLowR', e.target.value ? Number(e.target.value) : undefined)}
+          />
+        </div>
+      </div>
+
+      <div className="enrichment-section-label">Management R (actual + hypothetical, multiple allowed)</div>
+      <div className="enrichment-grid">
+        <div className="form-row">
+          <label>No Move R</label>
+          <input
+            type="number"
+            step="0.01"
+            value={form.mgmtNoMoveR ?? ''}
+            onChange={(e) => update('mgmtNoMoveR', e.target.value ? Number(e.target.value) : undefined)}
+          />
+        </div>
+
+        <div className="form-row">
+          <label>Extended Target R</label>
+          <input
+            type="number"
+            step="0.01"
+            value={form.mgmtExtendedTargetR ?? ''}
+            onChange={(e) => update('mgmtExtendedTargetR', e.target.value ? Number(e.target.value) : undefined)}
+          />
+        </div>
+
+        <div className="form-row">
+          <label>Partial Book + Trail R</label>
+          <input
+            type="number"
+            step="0.01"
+            value={form.mgmtPartialBookTrailR ?? ''}
+            onChange={(e) => update('mgmtPartialBookTrailR', e.target.value ? Number(e.target.value) : undefined)}
           />
         </div>
       </div>

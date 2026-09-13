@@ -24,15 +24,27 @@ export interface Trade {
 
   sessionWindow?: string;
   ibType?: 'single_break' | 'double_break' | 'none';
-  ibLevel?: number;
   vwapSide?: 'above' | 'below';
   msDirection?: 'uptrend' | 'downtrend' | 'range';
   signature?: 'bull180' | 'bear180' | 'torpedo' | 'power_bar';
   setupGrade?: 'A' | 'B' | 'C';
-  confluenceCount?: number;
   srZoneLow?: number;
   srZoneHigh?: number;
   classicLevel?: number;
+
+  srType?: 'support' | 'resistance';
+  srTouchCount?: '1' | '2' | '3' | '4' | '4+';
+  srFailureCount?: '0' | '1' | '2' | '3' | '4+';
+
+  slPlacement?: 'above_sr' | 'candle_high_low' | 'swing_high_low';
+
+  targetClassicLevelR?: number;
+  targetFurtherSrR?: number;
+  targetIbHighLowR?: number;
+
+  mgmtNoMoveR?: number;
+  mgmtExtendedTargetR?: number;
+  mgmtPartialBookTrailR?: number;
 
   regime?: string;
   regimeConfidence?: number;
@@ -44,15 +56,28 @@ export interface Trade {
 export interface TradeEnrichment {
   sessionWindow?: string;
   ibType?: string;
-  ibLevel?: number;
   vwapSide?: string;
   msDirection?: string;
   signature?: string;
   setupGrade?: string;
-  confluenceCount?: number;
   srZoneLow?: number;
   srZoneHigh?: number;
   classicLevel?: number;
+
+  srType?: string;
+  srTouchCount?: string;
+  srFailureCount?: string;
+
+  slPlacement?: string;
+
+  targetClassicLevelR?: number;
+  targetFurtherSrR?: number;
+  targetIbHighLowR?: number;
+
+  mgmtNoMoveR?: number;
+  mgmtExtendedTargetR?: number;
+  mgmtPartialBookTrailR?: number;
+
   notes?: string;
 }
 
@@ -71,3 +96,8 @@ export const MS_DIRECTIONS = ['uptrend', 'downtrend', 'range'] as const;
 export const SIGNATURES = ['bull180', 'bear180', 'torpedo', 'power_bar'] as const;
 export const SETUP_GRADES = ['A', 'B', 'C'] as const;
 export const INSTRUMENTS = ['CME_MINI:MNQ', 'CME_MINI:MGC'] as const;
+
+export const SR_TYPES = ['support', 'resistance'] as const;
+export const SR_TOUCH_COUNTS = ['1', '2', '3', '4', '4+'] as const;
+export const SR_FAILURE_COUNTS = ['0', '1', '2', '3', '4+'] as const;
+export const SL_PLACEMENTS = ['above_sr', 'candle_high_low', 'swing_high_low'] as const;

@@ -45,14 +45,27 @@ public class LiveTradeCreateDto {
 
     private String sessionWindow;
     private String ibType;
-    private BigDecimal ibLevel;
     private String vwapSide;
     private String msDirection;
     private String signature;
     private String setupGrade;
-    private Short confluenceCount;
     private BigDecimal srZoneLow;
     private BigDecimal srZoneHigh;
     private BigDecimal classicLevel;
+
+    private String srType;
+    private String srTouchCount;
+    private String srFailureCount;
+
+    private String slPlacement;
+
+    private BigDecimal targetClassicLevelR;
+    private BigDecimal targetFurtherSrR;
+    private BigDecimal targetIbHighLowR;
+
+    private BigDecimal mgmtNoMoveR;
+    private BigDecimal mgmtExtendedTargetR;
+    private BigDecimal mgmtPartialBookTrailR;
+
     private String notes;
 }
