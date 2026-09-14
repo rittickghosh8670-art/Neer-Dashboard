@@ -11,8 +11,8 @@ import os
 
 import anthropic
 
-MODEL_NAME = "claude-opus-4-1-20250805"
-FALLBACK_MODEL_NAME = "claude-3-5-sonnet-20241022"
+MODEL_NAME = "claude-opus-5"
+FALLBACK_MODEL_NAME = "claude-sonnet-5"
 
 SYSTEM_PROMPT = """You are a trading performance analyst reviewing backtest and \
 live trade data for the "LBS" (Levels + Bull180/Bear180/Torpedo/Power Bar Scalping) \
@@ -92,8 +92,8 @@ def analyze_trades(
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": user_content}],
         )
-    except anthropic.NotFoundError:
-        # Fallback if the pinned Opus model version is unavailable on the account.
+    except (anthropic.NotFoundError, anthropic.BadRequestError):
+        # Fallback if the pinned Opus model alias is unavailable/deprecated on the account.
         model_to_use = FALLBACK_MODEL_NAME
         response = client.messages.create(
             model=model_to_use,
