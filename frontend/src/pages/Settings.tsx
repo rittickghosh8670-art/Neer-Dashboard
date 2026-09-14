@@ -1,6 +1,18 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { createBackup, getBackupDownloadUrl, listBackups, restoreBackup } from '../api/backup';
 import type { BackupInfo } from '../api/backup';
+
+function extractErrorMessage(err: unknown, fallback: string): string {
+  if (axios.isAxiosError(err)) {
+    const data = err.response?.data as { message?: string; error?: string } | string | undefined;
+    if (typeof data === 'string') return data;
+    if (data?.message) return data.message;
+    if (data?.error) return data.error;
+    return err.message;
+  }
+  return err instanceof Error ? err.message : fallback;
+}
 
 function formatSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
@@ -36,7 +48,7 @@ function Settings() {
       setMessage(`Backup created: ${result.fileName}`);
       fetchBackups();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Backup failed.');
+      setError(extractErrorMessage(err, 'Backup failed.'));
     } finally {
       setCreating(false);
     }
@@ -61,7 +73,7 @@ function Settings() {
       await restoreBackup(file);
       setMessage('Database restored successfully. Refresh the app to see restored data.');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Restore failed.');
+      setError(extractErrorMessage(err, 'Restore failed.'));
     } finally {
       setRestoring(false);
       e.target.value = '';

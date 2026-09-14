@@ -1,6 +1,7 @@
 package com.lbs.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BackupService {
 
     private static final DateTimeFormatter FILE_TIMESTAMP = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
@@ -63,6 +65,8 @@ public class BackupService {
                 "-U", dbUser,
                 "-d", dbName,
                 "-F", "p",
+                "--clean",
+                "--if-exists",
                 "-f", outputPath.toString()
         );
         pb.environment().put("PGPASSWORD", dbPassword);
@@ -71,6 +75,8 @@ public class BackupService {
         Process process = pb.start();
         String output = new String(process.getInputStream().readAllBytes());
         boolean finished = process.waitFor(PROCESS_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+
+        log.info("pg_dump output for {}: {}", fileName, output);
 
         if (!finished) {
             process.destroyForcibly();
@@ -115,6 +121,7 @@ public class BackupService {
                 "-p", dbPort,
                 "-U", dbUser,
                 "-d", dbName,
+                "-v", "ON_ERROR_STOP=1",
                 "-f", sqlFilePath.toString()
         );
         pb.environment().put("PGPASSWORD", dbPassword);
@@ -124,12 +131,14 @@ public class BackupService {
         String output = new String(process.getInputStream().readAllBytes());
         boolean finished = process.waitFor(PROCESS_TIMEOUT_SECONDS, TimeUnit.SECONDS);
 
+        log.info("psql restore output: {}", output);
+
         if (!finished) {
             process.destroyForcibly();
             throw new IOException("psql restore timed out after " + PROCESS_TIMEOUT_SECONDS + "s");
         }
         if (process.exitValue() != 0) {
-            throw new IOException("psql restore failed: " + output);
+            throw new IOException("psql restore failed (exit " + process.exitValue() + "): " + output);
         }
     }
 
