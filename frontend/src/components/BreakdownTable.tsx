@@ -28,6 +28,7 @@ function BreakdownTable({ title, breakdown }: Props) {
             <th>Win Rate</th>
             <th>Profit Factor</th>
             <th>Expectancy</th>
+            <th>Avg RR</th>
             <th>Total PnL</th>
           </tr>
         </thead>
@@ -39,6 +40,7 @@ function BreakdownTable({ title, breakdown }: Props) {
               <td>{m.winRate.toFixed(1)}%</td>
               <td>{m.profitFactor.toFixed(2)}</td>
               <td>{m.expectancy.toFixed(2)}</td>
+              <td>{m.avgRiskReward.toFixed(2)}</td>
               <td className={m.totalPnl >= 0 ? 'pnl-positive' : 'pnl-negative'}>
                 {m.totalPnl.toFixed(2)}
               </td>

@@ -184,6 +184,13 @@ public class MetricsService {
             builder.breakdownBySessionWindow(breakdownBy(closed, Trade::getSessionWindow));
             builder.breakdownBySignature(breakdownBy(closed, Trade::getSignature));
             builder.breakdownByRegime(breakdownBy(closed, Trade::getRegime));
+            builder.breakdownByEntryBasis(breakdownBy(closed, Trade::getEntryBasis));
+            builder.breakdownBySetupGrade(breakdownBy(closed, Trade::getSetupGrade));
+            builder.breakdownBySrType(breakdownBy(closed, Trade::getSrType));
+            builder.breakdownByIbType(breakdownBy(closed, Trade::getIbType));
+            builder.breakdownByVwapSide(breakdownBy(closed, Trade::getVwapSide));
+            builder.breakdownByMsDirection(breakdownBy(closed, Trade::getMsDirection));
+            builder.breakdownBySlPlacement(breakdownBy(closed, Trade::getSlPlacement));
         }
 
         return builder.build();

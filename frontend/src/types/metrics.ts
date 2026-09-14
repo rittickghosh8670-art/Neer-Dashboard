@@ -24,4 +24,11 @@ export interface Metrics {
   breakdownBySessionWindow?: Record<string, Metrics>;
   breakdownBySignature?: Record<string, Metrics>;
   breakdownByRegime?: Record<string, Metrics>;
+  breakdownByEntryBasis?: Record<string, Metrics>;
+  breakdownBySetupGrade?: Record<string, Metrics>;
+  breakdownBySrType?: Record<string, Metrics>;
+  breakdownByIbType?: Record<string, Metrics>;
+  breakdownByVwapSide?: Record<string, Metrics>;
+  breakdownByMsDirection?: Record<string, Metrics>;
+  breakdownBySlPlacement?: Record<string, Metrics>;
 }

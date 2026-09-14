@@ -36,6 +36,13 @@ public class MetricsDto {
     private Map<String, MetricsDto> breakdownBySessionWindow;
     private Map<String, MetricsDto> breakdownBySignature;
     private Map<String, MetricsDto> breakdownByRegime;
+    private Map<String, MetricsDto> breakdownByEntryBasis;
+    private Map<String, MetricsDto> breakdownBySetupGrade;
+    private Map<String, MetricsDto> breakdownBySrType;
+    private Map<String, MetricsDto> breakdownByIbType;
+    private Map<String, MetricsDto> breakdownByVwapSide;
+    private Map<String, MetricsDto> breakdownByMsDirection;
+    private Map<String, MetricsDto> breakdownBySlPlacement;
 
     @Getter
     @Builder
@@ -46,3 +53,4 @@ public class MetricsDto {
         private BigDecimal cumulativePnl;
     }
 }
+

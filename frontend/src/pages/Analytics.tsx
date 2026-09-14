@@ -94,6 +94,13 @@ function Analytics() {
             <BreakdownTable title="By Session Window" breakdown={metrics.breakdownBySessionWindow} />
             <BreakdownTable title="By Signature" breakdown={metrics.breakdownBySignature} />
             <BreakdownTable title="By Regime" breakdown={metrics.breakdownByRegime} />
+            <BreakdownTable title="By Entry Basis" breakdown={metrics.breakdownByEntryBasis} />
+            <BreakdownTable title="By Setup Grade" breakdown={metrics.breakdownBySetupGrade} />
+            <BreakdownTable title="By S/R Type" breakdown={metrics.breakdownBySrType} />
+            <BreakdownTable title="By IB Type" breakdown={metrics.breakdownByIbType} />
+            <BreakdownTable title="By VWAP Side" breakdown={metrics.breakdownByVwapSide} />
+            <BreakdownTable title="By MS Direction" breakdown={metrics.breakdownByMsDirection} />
+            <BreakdownTable title="By SL Placement" breakdown={metrics.breakdownBySlPlacement} />
           </div>
         </>
       )}
