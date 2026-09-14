@@ -14,6 +14,7 @@ import {
 } from '../types/trade';
 import type { Trade, TradeEnrichment } from '../types/trade';
 import { deleteTrade, enrichTrade, getTradeImageUrl, uploadTradeImage } from '../api/trades';
+import { classifyRegimeForTrade } from '../api/regime';
 
 interface Props {
   trade: Trade;
@@ -28,6 +29,10 @@ function TradeEnrichmentForm({ trade, onUpdated, onClose, onDeleted }: Props) {
   const [deleting, setDeleting] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [regimePriceInput, setRegimePriceInput] = useState('');
+  const [classifying, setClassifying] = useState(false);
+  const [regimeResult, setRegimeResult] = useState<{ regime: string; confidence: number } | null>(null);
+  const [regimeError, setRegimeError] = useState<string | null>(null);
 
   useEffect(() => {
     setForm({
@@ -90,6 +95,40 @@ function TradeEnrichmentForm({ trade, onUpdated, onClose, onDeleted }: Props) {
       setError(err instanceof Error ? err.message : 'Delete failed.');
     } finally {
       setDeleting(false);
+    }
+  };
+
+  const handleClassifyRegime = async () => {
+    setRegimeError(null);
+    setRegimeResult(null);
+
+    const prices = regimePriceInput
+      .split(/[,\n]+/)
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0)
+      .map(Number);
+
+    if (prices.some((p) => Number.isNaN(p))) {
+      setRegimeError('One or more entered values is not a valid number.');
+      return;
+    }
+    if (prices.length < 20) {
+      setRegimeError(`At least 20 price points are required (got ${prices.length}).`);
+      return;
+    }
+
+    setClassifying(true);
+    try {
+      const updated = await classifyRegimeForTrade(trade.id, prices);
+      onUpdated(updated);
+      setRegimeResult({
+        regime: updated.regime ?? '-',
+        confidence: updated.regimeConfidence ?? 0,
+      });
+    } catch (err) {
+      setRegimeError(err instanceof Error ? err.message : 'Regime classification failed.');
+    } finally {
+      setClassifying(false);
     }
   };
 
@@ -355,6 +394,32 @@ function TradeEnrichmentForm({ trade, onUpdated, onClose, onDeleted }: Props) {
           />
         </div>
       </div>
+
+      <div className="enrichment-section-label">
+        Regime Classification (paste 1-min or 2-min close prices from the IB window
+        preceding this session, e.g. 12:30-1:30am IB closes for a 1:30-2:30am trade;
+        minimum 20 values, comma or newline separated)
+      </div>
+      <div className="form-row">
+        <textarea
+          rows={3}
+          value={regimePriceInput}
+          onChange={(e) => setRegimePriceInput(e.target.value)}
+          placeholder="28956.25, 28958.5, 28955.0, 28960.75, ..."
+        />
+        <button type="button" onClick={handleClassifyRegime} disabled={classifying}>
+          {classifying ? 'Classifying...' : 'Classify Regime'}
+        </button>
+      </div>
+      {regimeError && <p className="error-text">{regimeError}</p>}
+      {regimeResult && (
+        <p className="success-text">
+          Regime: <strong>{regimeResult.regime}</strong> (confidence {(regimeResult.confidence * 100).toFixed(0)}%) — saved to trade.
+        </p>
+      )}
+      {trade.regime && !regimeResult && (
+        <p className="page-subtitle">Current saved regime: {trade.regime} ({((trade.regimeConfidence ?? 0) * 100).toFixed(0)}% confidence)</p>
+      )}
 
       <div className="form-row">
         <label>Notes</label>
